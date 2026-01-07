@@ -1,49 +1,42 @@
-resource "tls_private_key" "mykey" {
+resource "tls_private_key" "my_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-resource "aws_key_pair" "mykey" {
-  key_name   = var.aws_key
-  public_key = tls_private_key.mykey.public_key_openssh
+module "application-load-balancer" {
+  source = "./modules/application-load-balancer"
+
+  project_name = var.project_name
+  aws_region   = var.aws_region
+  vpc_id       = module.networking.vpc_id
+  http_port    = var.http_port
+  subnet_ids   = module.networking.subnet_ids
+  tags         = local.tags
 }
 
-resource "aws_launch_template" "webserver" {
-  name_prefix   = "demo-app-"
-  image_id      = data.aws_ami.ubuntu.id
-  instance_type = var.ec2_instance_type
-  key_name      = aws_key_pair.mykey.key_name
-  user_data     = base64encode(local.user_data)
+module "networking" {
+  source = "./modules/networking"
 
-  network_interfaces {
-    associate_public_ip_address = true
-    security_groups             = [aws_security_group.demo-app.id]
-  }
+  aws_region       = var.aws_region
+  project_name     = var.project_name
+  address_space    = var.address_space
+  azs_subnets      = var.azs_subnets
+  http_port        = var.http_port
+  inbound_ports    = local.inbound_ports
+  allow_public_ips = var.allow_public_ips
+  tags             = local.tags
 }
 
-resource "aws_autoscaling_group" "webserver" {
+module "ec2" {
+  source = "./modules/ec2"
 
-  launch_template {
-    id      = aws_launch_template.webserver.id
-    version = "$Latest"
-  }
-
-  vpc_zone_identifier = [for subnet in aws_subnet.demo-app : subnet.id]
-  min_size            = 2
-  max_size            = 3
-  desired_capacity    = 3
-
-  target_group_arns         = [aws_lb_target_group.demo-app.arn]
-  health_check_type         = "ELB" # uses the load balancer / target-group health checks instead of basic EC2 instance status checks
-  health_check_grace_period = 300   # adequate for medium boot time (180-300 seconds) - apt installs, small setup script
-
-  dynamic "tag" {
-    for_each = local.tags
-
-    content {
-      key                 = tag.key
-      value               = tag.value
-      propagate_at_launch = true
-    }
-  }
+  aws_region          = var.aws_region
+  ec2_instance_type   = var.ec2_instance_type
+  aws_key             = var.aws_key
+  public_key          = tls_private_key.my_key.public_key_openssh
+  user_data           = local.user_data
+  demo_app_sg_id      = module.networking.security_group_id
+  demo_app_subnet_ids = module.networking.subnet_ids
+  target_group_arn    = module.application-load-balancer.target_group_arn
+  tags                = local.tags
 }

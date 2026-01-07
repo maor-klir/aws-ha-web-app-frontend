@@ -2,7 +2,7 @@ resource "aws_vpc" "demo-app" {
   cidr_block           = var.address_space
   enable_dns_hostnames = true
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "aws_subnet" "demo-app" {
@@ -13,7 +13,7 @@ resource "aws_subnet" "demo-app" {
   cidr_block              = each.value
   map_public_ip_on_launch = var.allow_public_ips
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "aws_security_group" "demo-app" {
@@ -21,7 +21,7 @@ resource "aws_security_group" "demo-app" {
   vpc_id = aws_vpc.demo-app.id
 
   dynamic "ingress" {
-    for_each = local.inbound_ports
+    for_each = var.inbound_ports
 
     content {
       cidr_blocks = ["0.0.0.0/0"]
@@ -39,13 +39,13 @@ resource "aws_security_group" "demo-app" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "aws_internet_gateway" "demo-app" {
   vpc_id = aws_vpc.demo-app.id
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "aws_route_table" "demo-app" {
@@ -56,7 +56,7 @@ resource "aws_route_table" "demo-app" {
     gateway_id = aws_internet_gateway.demo-app.id
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "aws_route_table_association" "demo-app" {
@@ -65,15 +65,3 @@ resource "aws_route_table_association" "demo-app" {
   subnet_id      = aws_subnet.demo-app[each.key].id
   route_table_id = aws_route_table.demo-app.id
 }
-
-# resource "aws_eip" "webserver" {
-#   instance = aws_instance.webserver.id
-#   vpc      = true
-
-#   tags = local.tags
-# }
-
-# resource "aws_eip_association" "webserver" {
-#   instance_id   = aws_instance.webserver.id
-#   allocation_id = aws_eip.webserver.id
-# }
