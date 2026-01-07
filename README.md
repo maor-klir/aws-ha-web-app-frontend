@@ -1,2 +1,3 @@
 # aws-ha-web-app-frontend
-Highly available web application frontend
+
+A simple demo showcasing the provisioning of a highly available web application frontend on AWS.
