@@ -37,6 +37,6 @@ module "ec2" {
   user_data           = local.user_data
   demo_app_sg_id      = module.networking.security_group_id
   demo_app_subnet_ids = module.networking.subnet_ids
-  target_group_arn    = module.application-load-balancer.target_group_arn
+  target_group_arns   = [module.application-load-balancer.target_group_arn]
   tags                = local.tags
 }

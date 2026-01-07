@@ -35,7 +35,7 @@ variable "demo_app_subnet_ids" {
   type        = list(string)
 }
 
-variable "target_group_arn" {
+variable "target_group_arns" {
   description = "Target group ARN for the demo app EC2 instances"
   type        = set(string)
 }

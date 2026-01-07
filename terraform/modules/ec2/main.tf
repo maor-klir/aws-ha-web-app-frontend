@@ -28,7 +28,7 @@ resource "aws_autoscaling_group" "webserver" {
   max_size            = 3
   desired_capacity    = 3
 
-  target_group_arns         = var.target_group_arn
+  target_group_arns         = var.target_group_arns
   health_check_type         = "ELB" # uses the load balancer / target-group health checks instead of basic EC2 instance status checks
   health_check_grace_period = 300   # adequate for medium boot time (180-300 seconds) - apt installs, small setup script
 
