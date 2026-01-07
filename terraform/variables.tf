@@ -1,24 +1,24 @@
 variable "aws_region" {
-  type        = string
   description = "The AWS region to provision resources into"
+  type        = string
   default     = "eu-central-1"
 }
 
 variable "ec2_instance_type" {
-  type        = string
   description = "EC2 instance type"
+  type        = string
   default     = "t3.micro"
 }
 
 variable "aws_key" {
-  type        = string
   description = "AWS key to SSH into the EC2 instances"
+  type        = string
   default     = "aws_key.pem"
 }
 
 variable "ssh_port" {
+  description = "SSH port number for EC2 ingress in security group"
   type        = number
-  description = "SSH port number for EC2 ingress in security group."
   default     = 22
   validation {
     condition     = var.ssh_port == 22
@@ -27,8 +27,8 @@ variable "ssh_port" {
 }
 
 variable "http_port" {
-  type        = number
   description = "HTTP port number for EC2 ingress in security group"
+  type        = number
   default     = 80
 }
 
@@ -51,7 +51,7 @@ variable "resource_tags" {
 }
 
 variable "address_space" {
-  description = "The address space that is used by the virtual network"
+  description = "The CIDR block address space that is used by the VPC"
   type        = string
   default     = "10.1.0.0/16"
 }
@@ -63,8 +63,8 @@ variable "allow_public_ips" {
 }
 
 variable "azs_subnets" {
-  type        = map(string)
   description = "Availability Zones to use with subnets"
+  type        = map(string)
   default = {
     "eu-central-1a" = "10.1.1.0/24",
     "eu-central-1b" = "10.1.2.0/24",
@@ -73,7 +73,7 @@ variable "azs_subnets" {
 }
 
 variable "display_version" {
-  description = "A boolean to decide whether to display the version of the demo-app"
+  description = "Whether to display the version of the demo-app"
   type        = bool
   default     = true
 }

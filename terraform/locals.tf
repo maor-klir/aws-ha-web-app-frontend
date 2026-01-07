@@ -13,11 +13,5 @@ locals {
     version = var.app_version
   }) : file("${path.module}/user-data/install_libraries.sh")
 
-  # instances = {
-  #   "${local.name_suffix}-01" = var.private_ips[0]
-  #   "${local.name_suffix}-02" = var.private_ips[1]
-  #   "${local.name_suffix}-03" = var.private_ips[2]
-  # }
-
   inbound_ports = [var.ssh_port, var.http_port]
 }
