@@ -4,7 +4,8 @@ resource "tls_private_key" "my_key" {
 }
 
 module "application-load-balancer" {
-  source = "./modules/application-load-balancer"
+  source  = "app.terraform.io/maor/terraform-aws-application-load-balancer/aws"
+  version = "0.1.0"
 
   project_name = var.project_name
   aws_region   = var.aws_region
@@ -15,7 +16,8 @@ module "application-load-balancer" {
 }
 
 module "networking" {
-  source = "./modules/networking"
+  source  = "app.terraform.io/maor/terraform-aws-networking/aws"
+  version = "0.1.0"
 
   aws_region       = var.aws_region
   project_name     = var.project_name
@@ -28,7 +30,8 @@ module "networking" {
 }
 
 module "ec2" {
-  source = "./modules/ec2"
+  source  = "app.terraform.io/maor/terraform-aws-ec2/aws"
+  version = "0.1.0"
 
   aws_region          = var.aws_region
   ec2_instance_type   = var.ec2_instance_type
