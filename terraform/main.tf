@@ -31,7 +31,7 @@ module "networking" {
 
 module "ec2" {
   source  = "app.terraform.io/maor/terraform-aws-ec2/aws"
-  version = "0.1.0"
+  version = "0.2.0"
 
   aws_region          = var.aws_region
   ec2_instance_type   = var.ec2_instance_type
