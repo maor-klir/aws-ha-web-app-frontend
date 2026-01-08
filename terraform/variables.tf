@@ -10,10 +10,9 @@ variable "ec2_instance_type" {
   default     = "t3.micro"
 }
 
-variable "aws_key" {
-  description = "AWS key to SSH into the EC2 instances"
+variable "aws_key_name" {
+  description = "AWS key name to SSH into the EC2 instances"
   type        = string
-  default     = "aws_key.pem"
 }
 
 variable "ssh_port" {

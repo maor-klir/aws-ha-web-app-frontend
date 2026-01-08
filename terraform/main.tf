@@ -32,7 +32,7 @@ module "ec2" {
 
   aws_region          = var.aws_region
   ec2_instance_type   = var.ec2_instance_type
-  aws_key             = var.aws_key
+  aws_key_name        = var.aws_key_name
   public_key          = tls_private_key.my_key.public_key_openssh
   user_data           = local.user_data
   demo_app_sg_id      = module.networking.security_group_id
