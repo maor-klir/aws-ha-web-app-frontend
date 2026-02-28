@@ -5,12 +5,13 @@ resource "tls_private_key" "my_key" {
 
 module "application-load-balancer" {
   source  = "app.terraform.io/maor/terraform-aws-application-load-balancer/aws"
-  version = "0.2.0"
+  version = "0.3.0"
 
   project_name = var.project_name
   aws_region   = var.aws_region
   vpc_id       = module.networking.vpc_id
   http_port    = var.http_port
+  https_port   = var.https_port
   subnet_ids   = module.networking.subnet_ids
   tags         = local.tags
 }

@@ -13,5 +13,5 @@ locals {
     version = var.app_version
   }) : file("${path.module}/user-data/install_libraries.sh")
 
-  inbound_ports = [var.ssh_port, var.http_port]
+  inbound_ports = [var.ssh_port, var.http_port, var.https_port]
 }

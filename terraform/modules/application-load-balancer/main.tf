@@ -71,13 +71,13 @@ resource "aws_security_group" "demo-app-alb" {
 resource "aws_lb_target_group" "demo-app" {
   name                          = var.project_name
   load_balancing_algorithm_type = "least_outstanding_requests"
-  port                          = var.http_port
-  protocol                      = "HTTP"
+  port                          = var.https_port
+  protocol                      = "HTTPS"
   vpc_id                        = var.vpc_id
 
   health_check {
     path                = "/"
-    protocol            = "HTTP"
+    protocol            = "HTTPS"
     matcher             = "200"
     interval            = 15
     timeout             = 3

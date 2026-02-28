@@ -31,6 +31,12 @@ variable "http_port" {
   default     = 80
 }
 
+variable "https_port" {
+  description = "HTTPS port number for target group backend traffic"
+  type        = number
+  default     = 443
+}
+
 variable "project_name" {
   description = "Name of the project"
   type        = string
