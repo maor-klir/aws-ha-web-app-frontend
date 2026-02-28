@@ -5,7 +5,7 @@ resource "tls_private_key" "my_key" {
 
 module "application-load-balancer" {
   source  = "app.terraform.io/maor/terraform-aws-application-load-balancer/aws"
-  version = "0.1.0"
+  version = "0.2.0"
 
   project_name = var.project_name
   aws_region   = var.aws_region

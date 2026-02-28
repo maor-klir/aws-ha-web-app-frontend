@@ -32,6 +32,7 @@ This implementation showcases:
 ## Future Plans and Improvements
 
 - [x] Dynamic provider credentials with AWS
-- [x] Update to use the latest Ubuntu 24.04 LTS AMI available
+- [x] Update the launch template to use the latest Ubuntu Server 24.04 LTS AMI available
 - [ ] Enable IMDSv2 on EC2 instances
+- [x] Change the load balancing algorithm to LOR (Least Outstanding Requests)
 - [ ] Integrate Sentinel policies for infrastructure governance
