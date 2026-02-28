@@ -14,6 +14,12 @@ variable "http_port" {
   default     = 80
 }
 
+variable "https_port" {
+  description = "HTTPS port number for target group backend traffic"
+  type        = number
+  default     = 443
+}
+
 variable "tags" {
   description = "A map of tags to assign to resources"
   type        = map(string)
