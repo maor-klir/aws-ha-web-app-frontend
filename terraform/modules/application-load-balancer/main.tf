@@ -69,10 +69,11 @@ resource "aws_security_group" "demo-app-alb" {
 }
 
 resource "aws_lb_target_group" "demo-app" {
-  name     = var.project_name
-  port     = var.http_port
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+  name                          = var.project_name
+  load_balancing_algorithm_type = "least_outstanding_requests"
+  port                          = var.http_port
+  protocol                      = "HTTP"
+  vpc_id                        = var.vpc_id
 
   health_check {
     path                = "/"
