@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eou pipefail
+set -euo pipefail
 
 echo "Installing tree, jq, and nginx"
 apt-get update
