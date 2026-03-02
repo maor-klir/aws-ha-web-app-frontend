@@ -1,14 +1,17 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/bash
+set -euo pipefail
 
 echo "Installing tree, jq, and nginx"
 apt-get update
 apt-get install -y tree jq nginx
 systemctl enable --now nginx
 
-export privateIP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
-export instanceID=$(ec2metadata --instance-id)
+# Set up IMDSv2 token for EC2 metadata and fetch instance metadata
+TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+export privateIP=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/local-ipv4)
+export instanceID=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id)
 
+# Create a simple index.html file for the nginx web server
 sudo cat << EOF > /tmp/index.html
 <html>
     <head>

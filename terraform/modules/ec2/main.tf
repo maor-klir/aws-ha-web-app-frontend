@@ -10,6 +10,12 @@ resource "aws_launch_template" "webserver" {
   key_name      = aws_key_pair.mykey.key_name
   user_data     = base64encode(var.user_data)
 
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required" # enforces IMDSv2
+    http_put_response_hop_limit = 1          # default; sufficient for processes running directly on the host (not in containers)
+  }
+
   network_interfaces {
     associate_public_ip_address = true
     security_groups             = [var.demo_app_sg_id]
